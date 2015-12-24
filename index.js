@@ -78,7 +78,9 @@ var plugin = function(manifest, options) {
 
     base = base.replace(/(^\/|\/$)/g, '');
 
-    for (var url in manifest) {
+    var manifestLength = manifest.length
+    for (var i = 0; i < manifestLength; i++) {
+      var url = manifest[i]
       var dest = manifest[url], replaced, bases;
       if (strip) {
         replaced = prefix + dest.replace(stripRegex, '');
@@ -89,8 +91,9 @@ var plugin = function(manifest, options) {
       if (base) {
         bases.unshift('/' + base + '/', base + '/');
       }
-      for (var i = 0; i < bases.length; i++) {
-        var newLine = line.split(bases[i] + url).join(replaced);
+      var basesLength = bases.length
+      for (var j = 0; j < basesLength; j++) {
+        var newLine = line.split(bases[j] + url).join(replaced);
         if (line !== newLine) {
           if (options.verbose) gutil.log(PLUGIN_NAME, 'Found:', chalk.yellow(url.replace(/^\//, '')));
           if (options.verbose) gutil.log(PLUGIN_NAME, 'Replaced:', chalk.green(prefix + replaced));
